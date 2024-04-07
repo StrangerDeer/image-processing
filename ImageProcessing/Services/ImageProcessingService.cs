@@ -1,4 +1,5 @@
-﻿using PictureProcessing.Converters;
+﻿using System.Diagnostics;
+using PictureProcessing.Converters;
 using PictureProcessing.Exceptions;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -16,6 +17,8 @@ public class ImageProcessingService : IImageProcessingService
     public Task<byte[]> ProcessImage(string image)
     {
         byte[] imageBytes = Array.Empty<byte>();
+        Stopwatch w = new Stopwatch();
+        w.Start();
         
         foreach (IDecodeToByteArr decode in _decoders)
         {
@@ -25,18 +28,9 @@ public class ImageProcessingService : IImageProcessingService
                 break;
             }
         }
-
-        try
-        {
-            using (Image<Rgba32> img = Image.Load<Rgba32>(imageBytes))
-            {
-
-            }
-        }
-        catch
-        {
-            throw new NotSupportedEncodedTypeException();
-        }
+        
+        w.Stop();
+        Console.WriteLine(w.ElapsedMilliseconds);
 
         if (imageBytes.Length == 0)
         {
@@ -48,6 +42,20 @@ public class ImageProcessingService : IImageProcessingService
 
     private void FillDecoders()
     {
+        _decoders.Add(new HexDecoder());
         _decoders.Add(new Base64Decoder());
+    }
+
+    private bool IsImage(byte[] imageBytes)
+    {
+        try
+        {
+            Image<Rgba32> img = Image.Load<Rgba32>(imageBytes);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }
