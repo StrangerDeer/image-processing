@@ -6,7 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IImageProcessingService, ImageProcessingService>();
 
-builder.Services.Configure<FormOptions>(o => {  
+builder.Services.Configure<FormOptions>(o =>
+{
+    o.ValueCountLimit = int.MaxValue;
     o.ValueLengthLimit = int.MaxValue;  
     o.MultipartBodyLengthLimit = long.MaxValue;  
     o.MemoryBufferThreshold = int.MaxValue;  
