@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using PictureProcessing.Converters;
 using PictureProcessing.Exceptions;
 using SixLabors.ImageSharp;
@@ -8,6 +9,9 @@ namespace PictureProcessing.Services;
 
 public class ImageProcessingService : IImageProcessingService
 {
+    [DllImport("imagesettingcpp.dll", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void gaussianBlur(byte[] image, int width, int height);
+    
     private readonly List<IDecodeToByteArr> _decoders = new();
 
     public ImageProcessingService()
@@ -17,9 +21,8 @@ public class ImageProcessingService : IImageProcessingService
     public Task<byte[]> ProcessImage(string image)
     {
         byte[] imageBytes = Array.Empty<byte>();
-        Stopwatch w = new Stopwatch();
-        w.Start();
-        
+        byte[] result = Array.Empty<byte>();
+      
         foreach (IDecodeToByteArr decode in _decoders)
         {
             if (decode.IsDecode(image))
@@ -28,20 +31,20 @@ public class ImageProcessingService : IImageProcessingService
                 break;
             }
         }
-        
-        w.Stop();
-        Console.WriteLine(w.ElapsedMilliseconds);
 
         if (imageBytes.Length == 0)
         {
             throw new NotSupportedEncodedTypeException();
         }
+
+        gaussianBlur(imageBytes, 1280, 720);
         
         return Task.FromResult(imageBytes);
     }
 
     private void FillDecoders()
     {
+        _decoders.Add(new HexDecoder());
         _decoders.Add(new HexDecoder());
         _decoders.Add(new Base64Decoder());
     }
