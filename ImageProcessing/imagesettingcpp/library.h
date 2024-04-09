@@ -1,4 +1,4 @@
 #pragma once
 
-extern "C" __declspec(dllexport) void gaussianBlur(unsigned char* image, int width, int height);
+extern "C" __declspec(dllexport) void gaussianBlur(unsigned char* image, int width, int height, unsigned char* result);
 

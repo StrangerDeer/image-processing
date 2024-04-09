@@ -10,7 +10,7 @@ namespace PictureProcessing.Services;
 public class ImageProcessingService : IImageProcessingService
 {
     [DllImport("imagesettingcpp.dll", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void gaussianBlur(byte[] image, int width, int height);
+    public static extern void gaussianBlur(ref byte[] image, int width, int height, ref byte[] result);
     
     private readonly List<IDecodeToByteArr> _decoders = new();
 
@@ -20,9 +20,11 @@ public class ImageProcessingService : IImageProcessingService
     }
     public Task<byte[]> ProcessImage(string image)
     {
+        int width = 200;
+        int heigth = 200;
         byte[] imageBytes = Array.Empty<byte>();
-        byte[] result = Array.Empty<byte>();
-      
+        byte[] result = new byte[width * heigth];
+        
         foreach (IDecodeToByteArr decode in _decoders)
         {
             if (decode.IsDecode(image))
@@ -36,15 +38,14 @@ public class ImageProcessingService : IImageProcessingService
         {
             throw new NotSupportedEncodedTypeException();
         }
-
-        gaussianBlur(imageBytes, 1280, 720);
         
-        return Task.FromResult(imageBytes);
+        gaussianBlur(ref imageBytes, width, heigth, ref result);
+        
+        return Task.FromResult(result);
     }
 
     private void FillDecoders()
     {
-        _decoders.Add(new HexDecoder());
         _decoders.Add(new HexDecoder());
         _decoders.Add(new Base64Decoder());
     }

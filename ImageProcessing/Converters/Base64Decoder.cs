@@ -1,4 +1,6 @@
 ﻿using System.Buffers.Text;
+using System.Drawing;
+using SixLabors.ImageSharp;
 
 namespace PictureProcessing.Converters;
 
@@ -19,6 +21,8 @@ public class Base64Decoder : IDecodeToByteArr
 
     public byte[] Decode(string image)
     {
-        return Convert.FromBase64String(image);
+        byte[] imageData = Convert.FromBase64String(image);
+
+        return imageData;
     }
 }
