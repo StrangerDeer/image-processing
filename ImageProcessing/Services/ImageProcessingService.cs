@@ -52,7 +52,7 @@ public class ImageProcessingService : IImageProcessingService
         
         gaussianBlur(imageBytes, _imgWidth, _imgHeight, _blurValue, newImgBytes);
         
-        byte[] result = _byteAndPixelArray.ConvertPixelArrayToByteArray(newImgBytes, _imgWidth, _imgHeight);
+        byte[] result = _byteAndPixelArray.CompressPixelArray(newImgBytes, _imgWidth, _imgHeight);
         
         return Task.FromResult(result);
     }
@@ -62,6 +62,12 @@ public class ImageProcessingService : IImageProcessingService
     /// </summary>
     /// <remarks>
     /// This method initializes the list of encode decoders used for decoding different encoding types such as hex and base64.
+    /// If you want to add new encoder, pay attention to the order of additions.
+    /// For example, if we swap the base64 decoder with the hex decoder,
+    /// due to character collisions, the hex code is interpreted as base64,
+    /// causing the program to run incorrectly afterward.
+    /// Since base64 uses a-zA-Z0-9 and hex uses A-F0-9,
+    /// I've observed that the converter incorrectly converts the hex code to base64
     /// </remarks>
     private void FillEncodeDecoders()
     {
@@ -124,7 +130,7 @@ public class ImageProcessingService : IImageProcessingService
             if (decoder.IsImgEncodeType(encodingType))
             {
                 _byteAndPixelArray = decoder;
-                return decoder.ConvertByteArrayToPixelArray(imgBytes, ref _imgWidth, ref _imgHeight);
+                return decoder.UnCompressToPixelArr(imgBytes, ref _imgWidth, ref _imgHeight);
             }
         }
 

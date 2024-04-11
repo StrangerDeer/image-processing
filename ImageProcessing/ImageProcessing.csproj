@@ -11,6 +11,10 @@
       <DocumentationFile>bin\Debug\MyApi.xml</DocumentationFile>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DocumentationFile>bin\Release\MyApi.xml</DocumentationFile>
+    </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.3.0" />
       <PackageReference Include="SixLabors.ImageSharp" Version="3.1.3" />

@@ -77,7 +77,7 @@ public abstract class BaseByteArrayPixelArrayConverter
     /// the pixel array of the image (in Rgba32).
     /// The method also updates the provided image width and height parameters with the dimensions of the image.
     /// </remarks>
-    public byte[] ConvertByteArrayToPixelArray(byte[] imgBytes, ref int imgWidth, ref int imgHeight)
+    public byte[] UnCompressToPixelArr(byte[] imgBytes, ref int imgWidth, ref int imgHeight)
     {
         var img = CreateImage(imgBytes);
         
@@ -113,7 +113,7 @@ public abstract class BaseByteArrayPixelArrayConverter
     /// This method loads the pixel data from the provided byte array into an RGBA image with the specified dimensions.
     /// It then creates a memory stream containing the byte representation of the RGBA image and returns the byte array representation of the image data.
     /// </remarks>
-    public byte[] ConvertPixelArrayToByteArray(byte[] pixels, int imgWidth, int imgHeight)
+    public byte[] CompressPixelArray(byte[] pixels, int imgWidth, int imgHeight)
     {
         var img = Image.LoadPixelData<Rgba32>(pixels, imgWidth, imgHeight);
         MemoryStream stream = CreateImgBytesFromRgba(img);
