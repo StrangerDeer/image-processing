@@ -1,4 +1,4 @@
-###About the program
+##About the program
 
 The program is a .Net OpenAPI. Currently, it has one endpoint (/api/image/processing) that can accept POST requests.
 When you start the server, you need to provide two keys in Form Data:
