@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
+#include <opencv2/core.hpp>
 
 /// <summary>
 /// Applies Gaussian blur to an RGBA image.
