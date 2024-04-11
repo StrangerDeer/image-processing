@@ -28,15 +28,16 @@ Image processing made by C++, and uses OpenCV library. The connect, between Serv
 ```
 
 2. Setup Server
+   ```sh
+   dotnet restore
+   ```
 
-sh```
- dotnet restore
+   if it is not working:
 
-if it is not working:
+  Download from NuGet:
+    - SixLabors.ImageSharp (v.: 3.1.3)
+    - Microsoft.AspNet.WebApi.Core (v.: 5.3.0)
+    - Swashbuckle.AspNetCore (v.: 6.5.0)
 
-Download from NuGet:
-  - SixLabors.ImageSharp (v.: 3.1.3)
-  - Microsoft.AspNet.WebApi.Core (v.: 5.3.0)
-  - Swashbuckle.AspNetCore (v.: 6.5.0)
-```
-3. 
+3.  If you want to create swagger, the swagger xml name must named by MyApi. (MyApi.xml)
+4.  
