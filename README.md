@@ -14,3 +14,28 @@ If you're using Swagger:
 0 - PNG
 1 - JPEG
 
+## About the technologies
+
+- Server: .Net Core, and use SixLabors.ImageSharp, Swashbuckle.AspnetCore
+
+Image processing made by C++, and uses OpenCV library. The connect, between Server and Image processing, is provided by dll file.
+
+## Setup
+
+1. Clone the repo:
+  ```sh
+  git clone https://github.com/StrangerDeer/image-processing.git
+```
+
+2. Setup Server
+
+sh```
+ dotnet restore
+```
+if it is not working:
+
+Download from NuGet:
+  - SixLabors.ImageSharp (v.: 3.1.3)
+  - Microsoft.AspNet.WebApi.Core (v.: 5.3.0)
+  - Swashbuckle.AspNetCore (v.: 6.5.0)
+3. 
